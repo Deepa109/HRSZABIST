@@ -258,6 +258,15 @@ app.get('/Question60',async(req,res)=>{
     }
 });
 
+app.get('/Question61',async(req,res)=>{
+    try{
+        const result = await pool.query('select d. department_name, l.city from departments d join locations l On d. location_id = l. location_id where l.city like \'N%\';');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
+
 
 
 
@@ -456,15 +465,23 @@ app.get('/Question80',async(req,res)=>{
     }
 });
 
+app.get('/country',async(req,res)=>{
+    try{
+        const result = await pool.query('select * from countries');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
 
-
-
-
-
-
-
-
-
+app.get('/employees',async(req,res)=>{
+    try{
+        const result = await pool.query('select * from employees');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
 
 
 
