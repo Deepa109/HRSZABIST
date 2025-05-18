@@ -25,7 +25,7 @@ app.get('/emp',async(req,res)=>{
     }
 });
 
-app.get('/empTotal',async(req,res)=>{
+app.get('/TotalEmployees',async(req,res)=>{
     try{
         const result = await pool.query('select count(employee_id) from employees');
         res.json(result.rows);
@@ -34,7 +34,7 @@ app.get('/empTotal',async(req,res)=>{
     }
 });
 
-app.get('/TotalDepartment',async(req,res)=>{
+app.get('/TotalDepartments',async(req,res)=>{
     try{
         const result = await pool.query('select count(*) from departments');
         res.json(result.rows);
@@ -64,6 +64,15 @@ app.get('/TotalCountries',async(req,res)=>{
 app.get('/TotalJobs',async(req,res)=>{
     try{
         const result = await pool.query('select count(*) from Jobs');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
+
+app.get('/TotalLocations',async(req,res)=>{
+    try{
+        const result = await pool.query('select count(*) from Locations');
         res.json(result.rows);
     }catch(err){
        res.status(500).json({Error:err.message});
@@ -482,6 +491,8 @@ app.get('/employees',async(req,res)=>{
        res.status(500).json({Error:err.message});
     }
 });
+
+
 
 
 
