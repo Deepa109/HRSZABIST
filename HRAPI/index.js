@@ -134,6 +134,43 @@ app.get('/treatment',async(req,res)=>{
     }
 });
 
+app.get('/admissionCountgraph',async(req,res)=>{
+    try{
+        const result = await pool.query('select admission_date , count(*) from admission group by admission_date');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
+
+app.get('/appointmentCountgraph',async(req,res)=>{
+    try{
+        const result = await pool.query('select appointment_date , count(*) from appointment group by appointment_date');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
+
+app.get('/billCountgraph',async(req,res)=>{
+    try{
+        const result = await pool.query('select bill_id ,total_amount from bill');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
+
+
+app.get('/doctorPerDepartment',async(req,res)=>{
+    try{
+        const result = await pool.query('select department_id ,count(doctor_id) from doctor group by department_id');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
+
 
 const PORT = process.env.PORT;
 app.listen(PORT,()=>{
