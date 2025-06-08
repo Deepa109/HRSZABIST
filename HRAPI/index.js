@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.get('/',async(req,res)=>{
     try{
-        res.json('WELCOME TO HR API');
+        res.json('WELCOME TO HOSPITAL MANAGEMENT SYSTEM API');
     }catch(err){
        res.status(500).json({Error:err.message});
     }
@@ -170,6 +170,63 @@ app.get('/doctorPerDepartment',async(req,res)=>{
        res.status(500).json({Error:err.message});
     }
 });
+
+app.get('/patientGender',async(req,res)=>{
+    try{
+        const result = await pool.query('select gender, count(*) from patient group by gender');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
+
+app.get('/roomgraph',async(req,res)=>{
+    try{
+        const result = await pool.query('select status, count(*) from room group by  status');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
+
+app.get('/treatmentgraph',async(req,res)=>{
+    try{
+        const result = await pool.query('select treatment_date, count(*) from treatment group by treatment_date');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
+
+app.get('/mediciationgraph',async(req,res)=>{
+    try{
+        const result = await pool.query('select dosage, count(*) from mediciation_order group by dosage');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
+
+
+app.get('/medicinegraph',async(req,res)=>{
+    try{
+const result = await pool.query('select medicine_id ,count(*) from medicine where expiry_date > current_date group by medicine_id');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
+
+app.get('/departmentgraph',async(req,res)=>{
+    try{
+const result = await pool.query('select department_id, count(*) from doctor group by department_id');
+        res.json(result.rows);
+    }catch(err){
+       res.status(500).json({Error:err.message});
+    }
+});
+
+
 
 
 const PORT = process.env.PORT;
