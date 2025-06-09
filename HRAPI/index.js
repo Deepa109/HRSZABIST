@@ -227,6 +227,21 @@ const result = await pool.query('select department_id, count(*) from doctor grou
 });
 
 
+app.post('/billpost', async (req, res) => {
+    const {bill_id, admission_id ,total_amount,payment_status,bill_date} = req.body;
+
+    try {
+        const result = await pool.query(
+            'INSERT INTO bill ( bill_id, admission_id ,total_amount,payment_status,bill_date) VALUES ($1, $2,$3,$4,$5)',
+            [ bill_id, admission_id ,total_amount,payment_status,bill_date]
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        console.error("POST /departmentpost error:", err);
+        res.status(500).json({ Error: err.message });
+    }
+});
+
 
 
 const PORT = process.env.PORT;
