@@ -248,11 +248,11 @@ app.post('/admissionpost', async (req, res) => {
 app.post('/appointmentpost', async (req, res) => {
     const { appointment_id, patient_id, doctor_id, appointment_date, appointment_time, status } = req.body;
 
+
+
     try {
         const result = await pool.query(
-            `INSERT INTO appointment 
-             (appointment_id,patient_id,doctor_id,appointment_date,appointment_time,status) 
-             VALUES ($1,$2,$3,$4,$5,$6)`,
+            `INSERT INTO Appointment (appointment_id,patient_id,doctor_id,appointment_date,appointment_time,status) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`,
             [appointment_id, patient_id, doctor_id, appointment_date, appointment_time, status]
         );
         res.status(201).json(result.rows[0]);
@@ -260,6 +260,7 @@ app.post('/appointmentpost', async (req, res) => {
         console.error("POST /appointmentpost error:", err);
         res.status(500).json({ error: err.message });
     }
+   
 });
 
 app.post('/departmentpost', async (req, res) => {
@@ -267,7 +268,7 @@ app.post('/departmentpost', async (req, res) => {
 
     try {
         const result = await pool.query(
-            'INSERT INTO department (department_id, name, description) VALUES ($1, $2, $3)',
+            'INSERT INTO department (department_id, name, description) VALUES ($1, $2, $3)RETURNING *',
             [department_id, name, description]
         );
         res.status(201).json(result.rows[0]);
@@ -313,7 +314,7 @@ app.post('/billpost', async (req, res) => {
 
     try {
         const result = await pool.query(
-            'INSERT INTO bill ( bill_id, admission_id ,total_amount,payment_status,bill_date) VALUES ($1, $2,$3,$4,$5)',
+            'INSERT INTO bill ( bill_id, admission_id ,total_amount,payment_status,bill_date) VALUES ($1, $2,$3,$4,$5)RETURNING *',
             [bill_id, admission_id, total_amount, payment_status, bill_date]
         );
         res.status(201).json(result.rows[0]);
@@ -348,7 +349,7 @@ app.post('/mediciation_orderpost', async (req, res) => {
 
     try {
         const result = await pool.query(
-            'INSERT INTO mediciation_order(prescription_id, treatment_id, medicine_id, dosage, duration) VALUES ($1, $2, $3, $4, $5)',
+            'INSERT INTO mediciation_order(prescription_id, treatment_id, medicine_id, dosage, duration) VALUES ($1, $2, $3, $4, $5)RETURNING *',
             [prescription_id, treatment_id, medicine_id, dosage, duration]
         );
         res.status(201).json(result.rows[0]);
@@ -364,7 +365,7 @@ app.post('/roompost', async (req, res) => {
 
     try {
         const result = await pool.query(
-            'INSERT INTO room(room_id, room_number, type, status) VALUES ($1, $2, $3, $4)',
+            'INSERT INTO room(room_id, room_number, type, status) VALUES ($1, $2, $3, $4)RETURNING *',
             [room_id, room_number, type, status]
         );
         res.status(201).json(result.rows[0]);
@@ -380,7 +381,7 @@ app.post('/treatmentpost', async (req, res) => {
 
     try {
         const result = await pool.query(
-            'INSERT INTO treatment(treatment_id, admission_id, doctor_id, description, treatment_date) VALUES ($1, $2, $3, $4, $5)',
+            'INSERT INTO treatment(treatment_id, admission_id, doctor_id, description, treatment_date) VALUES ($1, $2, $3, $4, $5)RETURNING *',
             [treatment_id, admission_id, doctor_id, description, treatment_date]
         );
         res.status(201).json(result.rows[0]);
