@@ -230,12 +230,12 @@ app.get('/departmentgraph', async (req, res) => {
 //====================================================== POST ========================================================
 
 app.post('/admissionpost', async (req, res) => {
-    const { admission_id, patient_id, room_id, admission_date, discharge_date } = req.body;
+    const { ad_admission_id, ad_patient_id, ad_room_id, ad_admission_date, ad_discharge_date } = req.body;
 
     try {
         const result = await pool.query(
             'INSERT INTO admission ( admission_id, patient_id, room_id, admission_date, discharge_date) VALUES ($1, $2,$3,$4,$5)',
-            [admission_id, patient_id, room_id, admission_date, discharge_date]
+            [ad_admission_id, ad_patient_id, ad_room_id, ad_admission_date, ad_discharge_date]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
@@ -246,14 +246,14 @@ app.post('/admissionpost', async (req, res) => {
 
 
 app.post('/appointmentpost', async (req, res) => {
-    const { appointment_id, patient_id, doctor_id, appointment_date, appointment_time, status } = req.body;
-
+    const { ap_appointment_id, ap_patient_id, ap_doctor_id, ap_appointment_date, ap_appointment_time, status } = req.body;
+    console.log(req.body);
 
 
     try {
         const result = await pool.query(
             `INSERT INTO Appointment (appointment_id,patient_id,doctor_id,appointment_date,appointment_time,status) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`,
-            [appointment_id, patient_id, doctor_id, appointment_date, appointment_time, status]
+            [ap_appointment_id, ap_patient_id, ap_doctor_id, ap_appointment_date, ap_appointment_time, ap_status]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {

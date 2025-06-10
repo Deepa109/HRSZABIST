@@ -1,0 +1,1270 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Title</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+
+
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+  <style>
+    body {
+      background-image: url('JS/image(2).jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+    }
+  </style>
+
+</head>
+
+<body>
+  <hr style="border: none; height: 8px; background-color: #ff5d22; width: 80%; margin: 20px auto;">
+
+  <h1
+    style="text-align: center; color: black; font-size: 48px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+    HOSPITAL MANAGEMENT SYSTEM
+  </h1>
+
+  <hr style="border: none; height: 8px; background-color: #ff5d22; width: 80%; margin: 20px auto;">
+
+  <body
+    style="background-image: url('JS/image(2).jpg'); background-size: cover; background-repeat: no-repeat; background-position: center; background-attachment: fixed;">
+
+
+
+    <div class="container my-5">
+
+
+      <div class="text-center my-4">
+        <button id="btn1" class="btn btn-primary"
+          style="padding: 40px 80px; font-size: 20px; background-color: #ff5d22; color: white; width: 300px;">
+          ADMISSION
+
+        </button>
+
+      </div>
+
+
+      <div id="admissionTableSection" class="table-responsive" style="display: none;">
+        <table class="table table-primary" id="admissiontable">
+          <thead>
+            <tr>
+              <th>Admission ID</th>
+              <th>Patient ID</th>
+              <th>Room ID</th>
+              <th>Admission Date</th>
+              <th>Discharge Date</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          ADD A NEW PERSON
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <form id="admissionForm">
+          <input type="text" id="ad_admission_id" placeholder="Admission ID" required />
+          <input type="text" id="ad_patient_id" placeholder="Patient ID" required />
+          <input type="text" id="ad_room_id" placeholder="Room ID " required />
+          <input type="date" id="ad_admission_date" required />
+          <input type="date" id="ad_discharge_date" required />
+          <button type="submit" style="width:190px;">Submit</button>
+        </form>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          GRAPH REPRESENTATION
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <div style="
+  width: 87vw;
+  height: 25vw;
+  background-color:whitesmoke;
+  padding: 20px;
+  ">
+
+          <canvas id="admissionChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          fetch('https://ubiquitous-lamp-69wq65pv6gvrc54g-6006.app.github.dev/admissionCountgraph')
+            .then(res => res.json())
+            .then(data => {
+              const labels = data.map(item => item.admission_date);
+              const counts = data.map(item => item.count);
+              const ctx = document.getElementById('admissionChart').getContext('2d');;
+
+
+
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    label: 'Admission per Day',
+                    data: counts,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'Number of Admissions'
+                      }
+                    },
+                    x: {
+                      title: {
+                        display: true,
+                        text: 'Date'
+                      }
+                    }
+                  }
+                }
+              });
+
+            });
+        </script>
+
+
+
+      </div>
+
+
+      <div class="text-center my-4">
+        <button id="btn2" class="btn btn-primary"
+          style="padding: 40px 80px; font-size: 20px; background-color: #ff5d22; color: white; width: 300px;">
+          APPOINTMENT
+        </button>
+      </div>
+
+      <div id="appointmentTableSection" class="table-responsive" style="display: none;">
+        <table class="table table-primary" id="appointmenttable">
+          <thead>
+            <tr>
+              <th>Appointment ID</th>
+              <th>Patient ID</th>
+              <th>Doctor ID</th>
+              <th>Appointment Date</th>
+              <th>Appointment Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          BOOK AN APPOINTMENT
+        </h1>
+
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <form id="appointmentForm" style="display: flex; gap: 10px; align-items: center;">
+<input type="number" id="ap_appointment_id" placeholder="Appointment ID" required />
+<input type="number" id="ap_patient_id" placeholder="Patient ID" required />
+<input type="number" id="ap_doctor_id" placeholder="Doctor ID" required />
+<input type="date" id="ap_appointment_date" required />
+<input type="time" id="ap_appointment_time" required />
+<input type="text" id="ap_status" placeholder="Status" required />
+<button type="submit">Submit</button>
+
+          <button type="submit" style="width: 170px;">Submit</button>
+        </form>
+
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <div style="
+  width: 87vw;
+  height: 25vw;
+  background-color:whitesmoke;
+  padding: 20px;
+  ">
+
+          <canvas id="appointmentChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          fetch('https://ubiquitous-lamp-69wq65pv6gvrc54g-6006.app.github.dev/appointmentCountgraph')
+            .then(res => res.json())
+            .then(data => {
+              const labels = data.map(item => item.appointment_date);
+              const counts = data.map(item => item.count);
+              const ctx = document.getElementById('appointmentChart').getContext('2d');;
+
+
+
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    label: 'Appointment per Day',
+                    data: counts,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'Number of Appointments'
+                      }
+                    },
+                    x: {
+                      title: {
+                        display: true,
+                        text: 'Date'
+                      }
+                    }
+                  }
+                }
+              });
+
+            });
+        </script>
+
+      </div>
+
+
+      <div class="text-center my-4">
+        <button id="btn3" class="btn btn-primary"
+          style="padding: 40px 80px; font-size: 20px; background-color: #ff5d22; color: white; width: 300px;">
+          BILL
+        </button>
+      </div>
+
+
+      <div id="billTableSection" class="table-responsive" style="display: none;">
+        <table class="table table-primary" id="billtable">
+          <thead>
+            <tr>
+              <th>Bill ID</th>
+              <th>Admission ID</th>
+              <th>Total_Amount</th>
+              <th>Payment_Status</th>
+              <th>Bill Date</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          ADD A NEW BILL
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <form id="billForm">
+          <input type="text" id="bill_id" placeholder="Bill ID" required />
+          <input type="text" id="admission_id" placeholder="Admission ID" required />
+          <input type="number" id="total_amount" placeholder="Total Amount" required />
+          <input type="text" id="payment_status" placeholder="Payment Status" required />
+          <input type="date" id="bill_date" required />
+          <button type="submit" style="width:190px;">Submit Bill</button>
+        </form>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          GRAPH REPRESENTATION
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <div style="
+  width: 87vw;
+  height: 25vw;
+  background-color:whitesmoke;
+  padding: 20px;
+  ">
+
+          <canvas id="billChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          fetch('https://ubiquitous-lamp-69wq65pv6gvrc54g-6006.app.github.dev/billCountgraph')
+            .then(res => res.json())
+            .then(data => {
+              const labels = data.map(item => item.total_amount);
+              const counts = data.map(item => item.bill_id);
+              const ctx = document.getElementById('billChart').getContext('2d');;
+
+
+
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    label: 'Total amount of each id',
+                    data: counts,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'Bill id'
+                      }
+                    },
+                    x: {
+                      title: {
+                        display: true,
+                        text: 'Amount'
+                      }
+                    }
+                  }
+                }
+              });
+
+            });
+        </script>
+      </div>
+
+
+
+      <div class="text-center my-4">
+        <button id="btn4" class="btn btn-primary"
+          style="padding: 40px 80px; font-size: 20px; background-color: #ff5d22; color: white; width: 300px;">
+          DEPARTMENT
+        </button>
+      </div>
+
+
+      <div id="departmentTableSection" class="table-responsive" style="display: none;">
+        <table class="table table-primary" id="departmenttable">
+          <thead>
+            <tr>
+              <th>Department ID</th>
+              <th>Name</th>
+              <th>Decription</th>
+
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          ADD A NEW DEPARTMENT
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <form id="departmentForm">
+          <input type="text" id="department_id" placeholder="Department ID" required style="width: 300px;" />
+          <input type="text" id="name" placeholder="Department Name" required style="width: 300px;" />
+          <input type="text" id="description" placeholder="Description" style="width: 300px;" />
+          <button type="submit" style="width:190px;">Submit Department</button>
+        </form>
+
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          GRAPH REPRESENTATION
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <div style="
+  width: 87vw;
+  height: 25vw;
+  background-color:whitesmoke;
+  padding: 20px;
+  ">
+
+          <canvas id="departmentChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          fetch('https://ubiquitous-lamp-69wq65pv6gvrc54g-6006.app.github.dev/departmentgraph')
+            .then(res => res.json())
+            .then(data => {
+              const labels = data.map(item => item.department_id);
+              const counts = data.map(item => item.count);
+              const ctx = document.getElementById('departmentChart').getContext('2d');;
+
+
+
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    label: 'Doctors in each department',
+                    data: counts,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'No of doctors'
+                      }
+                    },
+                    x: {
+                      title: {
+                        display: true,
+                        text: 'Department Id'
+                      }
+                    }
+                  }
+                }
+              });
+
+            });
+        </script>
+
+      </div>
+
+
+      <div class="text-center my-4">
+        <button id="btn5" class="btn btn-primary"
+          style="padding: 40px 80px; font-size: 20px; background-color: #ff5d22; color: white; width: 300px;">
+          DOCTOR
+        </button>
+      </div>
+
+
+      <div id="doctorTableSection" class="table-responsive" style="display: none;">
+        <table class="table table-primary" id="doctortable">
+          <thead>
+            <tr>
+              <th>Doctor ID</th>
+              <th>Name</th>
+              <th>Specialization</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Department ID</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          ADD A NEW DOCTOR
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <form id="doctorForm">
+          <input type="number" id="doctor_id" placeholder="Doctor ID" required />
+          <input type="text" id="name" placeholder="Doctor Name" required />
+          <input type="text" id="specialization" placeholder="Specialization" />
+          <input type="text" id="phone" placeholder="Phone Number" />
+          <input type="text" id="email" placeholder="Email Address" />
+          <input type="number" id="department_id" placeholder="Department ID" />
+          <button type="submit" style="width:190px;">Submit Doctor</button>
+        </form>
+
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          GRAPH REPRESENTATION
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <div style="
+  width: 87vw;
+  height: 25vw;
+  background-color:whitesmoke;
+  padding: 20px;
+  ">
+          <canvas id="doctorChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          fetch('https://ubiquitous-lamp-69wq65pv6gvrc54g-6006.app.github.dev/doctorPerDepartment')
+            .then(res => res.json())
+            .then(data => {
+              const labels = data.map(item => item.department_id);
+              const counts = data.map(item => item.count);
+              const ctx = document.getElementById('doctorChart').getContext('2d');;
+
+
+
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    label: 'Number of doctors in each department',
+                    data: counts,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'No of Doctors'
+                      }
+                    },
+                    x: {
+                      title: {
+                        display: true,
+                        text: 'Department id'
+                      }
+                    }
+                  }
+                }
+              });
+
+            });
+        </script>
+
+      </div>
+
+
+
+      <div class="text-center my-4">
+        <button id="btn6" class="btn btn-primary"
+          style="padding: 40px 80px; font-size: 20px; background-color: #ff5d22; color: white; width: 300px;">
+          MEDICINE
+        </button>
+      </div>
+
+
+      <div id="medicineTableSection" class="table-responsive" style="display: none;">
+        <table class="table table-primary" id="medicinetable">
+          <thead>
+            <tr>
+              <th>Medicine ID</th>
+              <th>Name</th>
+              <th>Manufacturer</th>
+              <th>Expiry Date</th>
+
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          ADD A NEW MEDICINE
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <form id="medicineForm">
+          <input type="text" id="medicine_id" placeholder="Medicine id" required />
+          <input type="text" id="name" placeholder="Name" required />
+          <input type="text" id="manufacturer" placeholder="Manufacturer" required />
+          <input type="date" id="expiry_date" required />
+          <button type="submit">Submit Medicine</button>
+
+        </form>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          GRAPH REPRESENTATION
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+
+
+        <div style="
+  width: 87vw;
+  height: 25vw;
+  background-color:whitesmoke;
+  padding: 20px;
+  ">
+
+          <canvas id="medicineChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          fetch('https://ubiquitous-lamp-69wq65pv6gvrc54g-6006.app.github.dev/medicinegraph')
+            .then(res => res.json())
+            .then(data => {
+              const labels = data.map(item => item.medicine_id);
+              const counts = data.map(item => item.count);
+              const ctx = document.getElementById('medicineChart').getContext('2d');;
+
+
+
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    label: 'Expired medicine till today',
+                    data: counts,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'No of Expired medicine'
+                      }
+                    },
+                    x: {
+                      title: {
+                        display: true,
+                        text: 'Medicine id'
+                      }
+                    }
+                  }
+                }
+              });
+
+            });
+        </script>
+      </div>
+
+
+
+      <div class="text-center my-4">
+        <button id="btn7" class="btn btn-primary"
+          style="padding: 40px 80px; font-size: 20px; background-color: #ff5d22; color: white; width: 300px;">
+          PATIENT
+        </button>
+      </div>
+
+
+      <div id="patientTableSection" class="table-responsive" style="display: none;">
+        <table class="table table-primary" id="patienttable">
+          <thead>
+            <tr>
+              <th>Patient ID</th>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Date of birth</th>
+              <th>Phone</th>
+              <th>Address</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          ADD A PATIENT
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <form id="patientForm">
+          <input type="text" id="patient_id" placeholder="Patient_id" required />
+          <input type="text" id="name" placeholder="Name" required />
+          <input type="text" id="gender" placeholder="Gender" required />
+          <input type="date" id="date_of_birth" required />
+          <input type="text" id="phone" placeholder="Phone" required />
+          <input type="text" id="address" placeholder="Address" required />
+          <button type="submit" style="width:190px;">Submit Patient</button>
+        </form>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          GRAPH REPRESENTATION
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+
+
+        <div style="
+  width: 87vw;
+  height: 25vw;
+  background-color:whitesmoke;
+  padding: 20px;
+  ">
+
+          <canvas id="patientChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          fetch('https://ubiquitous-lamp-69wq65pv6gvrc54g-6006.app.github.dev/patientGender')
+            .then(res => res.json())
+            .then(data => {
+              const labels = data.map(item => item.gender);
+              const counts = data.map(item => item.count);
+              const ctx = document.getElementById('patientChart').getContext('2d');;
+
+
+
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    label: 'No of Patients by gender',
+                    data: counts,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'Number of Patients'
+                      }
+                    },
+                    x: {
+                      title: {
+                        display: true,
+                        text: 'Gender'
+                      }
+                    }
+                  }
+                }
+              });
+
+            });
+        </script>
+      </div>
+
+
+
+      <div class="text-center my-4">
+        <button id="btn8" class="btn btn-primary"
+          style="padding: 40px 80px; font-size: 20px; background-color: #ff5d22; color: white; width: 300px;">
+          MEDICIATION ORDER
+        </button>
+      </div>
+
+
+      <div id="mediciation_orderTableSection" class="table-responsive" style="display: none;">
+        <table class="table table-primary" id="mediciation_ordertable">
+          <thead>
+            <tr>
+              <th>Perscription ID</th>
+              <th>Treatment ID</th>
+              <th>Medicine ID</th>
+              <th>Dosage</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          ADD A NEW PRESCRIPTION
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <form id="mediciation_orderForm">
+          <input type="text" id="prescription_id" placeholder="Prescription_id" required />
+          <input type="text" id="treatment_id" placeholder="Treatment_id" required />
+          <input type="text" id="medicine_id" placeholder="Medicine_id " required />
+          <input type="text" id="dosage" placeholder="Dosage " required />
+          <input type="text" id="duration" placeholder="Duration" required />
+          <button type="submit" style="width:190px;">Submit</button>
+        </form>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          GRAPH REPRESENTATION
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <div style="
+  width: 87vw;
+  height: 25vw;
+  background-color:whitesmoke;
+  padding: 20px;
+  ">
+
+          <canvas id="mediciationChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          fetch('https://ubiquitous-lamp-69wq65pv6gvrc54g-6006.app.github.dev/mediciationgraph')
+            .then(res => res.json())
+            .then(data => {
+              const labels = data.map(item => item.dosage);
+              const counts = data.map(item => item.count);
+              const ctx = document.getElementById('mediciationChart').getContext('2d');;
+
+
+
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    label: 'Prescriptions by Dosage',
+                    data: counts,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'Number of Prescriptions'
+                      }
+                    },
+                    x: {
+                      title: {
+                        display: true,
+                        text: 'Dosage'
+                      }
+                    }
+                  }
+                }
+              });
+
+            });
+        </script>
+      </div>
+
+
+      <div class="text-center my-4">
+        <button id="btn9" class="btn btn-primary"
+          style="padding: 40px 80px; font-size: 20px; background-color: #ff5d22; color: white; width: 300px;">
+          ROOM
+        </button>
+      </div>
+
+
+      <div id="roomTableSection" class="table-responsive" style="display: none;">
+        <table class="table table-primary" id="roomtable">
+          <thead>
+            <tr>
+              <th>Room ID</th>
+              <th>Room Number</th>
+              <th>Type</th>
+              <th>Status</th>
+
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          ADD A ROOM
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <form id="roomForm">
+          <input type="text" id="room_id" placeholder="Room_id" required />
+          <input type="text" id="room_number" placeholder="Room_number" required />
+          <input type="text" id="type" placeholder="Type" required />
+          <input type="text" id="status" placeholder="status" required />
+          <button type="submit" style="width:190px;">Submit</button>
+        </form>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          GRAPH REPRESENTATION
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+
+
+        <div style="
+  width: 87vw;
+  height: 25vw;
+  background-color:whitesmoke;
+  padding: 20px;
+  ">
+
+          <canvas id="roomChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          fetch('https://ubiquitous-lamp-69wq65pv6gvrc54g-6006.app.github.dev/roomgraph')
+            .then(res => res.json())
+            .then(data => {
+              const labels = data.map(item => item.status);
+              const counts = data.map(item => item.count);
+              const ctx = document.getElementById('roomChart').getContext('2d');;
+
+
+
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    label: 'Room Availability  Status',
+                    data: counts,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'status'
+                      }
+                    },
+                    x: {
+                      title: {
+                        display: true,
+                        text: 'No of rooms'
+                      }
+                    }
+                  }
+                }
+              });
+
+            });
+        </script>
+      </div>
+
+
+      <div class="text-center my-4">
+        <button id="btn10" class="btn btn-primary"
+          style="padding: 40px 80px; font-size: 20px; background-color: #ff5d22; color: white; width: 300px;">
+          TREATMENT
+        </button>
+      </div>
+
+
+      <div id="treatmentTableSection" class="table-responsive" style="display: none;">
+        <table class="table table-primary" id="treatmenttable">
+          <thead>
+            <tr>
+              <th>Treatment ID</th>
+              <th>Admission ID</th>
+              <th>Doctor ID</th>
+              <th>Description</th>
+              <th>Treatment Date</th>
+
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          ADD A NEW TREATMENT DATA
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+        <form id="treatmentForm">
+          <input type="text" id=" treatment_id" placeholder=" Treatment_id" required />
+          <input type="text" id="admission_id" placeholder="Admission_id" required />
+          <input type="text" id="doctor_id" placeholder="Doctor_id " required />
+          <input type="text" id="description" placeholder="description " required />
+          <input type="date" id="treatment_date" required />
+          <button type="submit" style="width:190px;">Submit</button>
+        </form>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+        <h1
+          style="text-align: center; color:black; font-size: 30px; font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;">
+          GRAPH REPRESENTATION
+        </h1>
+        <hr style="border: none; height: 8px; background-color: #ff5d22; width: 50%; margin: 20px auto;">
+
+
+
+        <div style="
+  width: 87vw;
+  height: 25vw;
+  background-color:whitesmoke;
+  padding: 20px;
+  ">
+
+          <canvas id="treatmentChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          fetch('https://ubiquitous-lamp-69wq65pv6gvrc54g-6006.app.github.dev/treatmentgraph')
+            .then(res => res.json())
+            .then(data => {
+              const labels = data.map(item => item.treatment_date);
+              const counts = data.map(item => item.count);
+              const ctx = document.getElementById('treatmentChart').getContext('2d');;
+
+
+
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    label: 'Number of Treatments by Date',
+                    data: counts,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'No of treatments'
+                      }
+                    },
+                    x: {
+                      title: {
+                        display: true,
+                        text: 'Treatment date'
+                      }
+                    }
+                  }
+                }
+              });
+
+            });
+        </script>
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+
+      document.getElementById("btn1").addEventListener("click", function () {
+        const tbody = document.querySelector("#admissiontable tbody");
+        tbody.innerHTML = "";
+        const section = document.getElementById("admissionTableSection");
+        section.style.display = section.style.display === "none" ? "block" : "none";
+      });
+
+      document.getElementById("btn2").addEventListener("click", function () {
+        const tbody = document.querySelector("#appointmenttable tbody");
+        tbody.innerHTML = "";
+        const section = document.getElementById("appointmentTableSection");
+        section.style.display = section.style.display === "none" ? "block" : "none";
+      });
+
+      document.getElementById("btn3").addEventListener("click", function () {
+        const tbody = document.querySelector("#billtable tbody");
+        tbody.innerHTML = "";
+        const section = document.getElementById("billTableSection");
+        section.style.display = section.style.display === "none" ? "block" : "none";
+      });
+
+      document.getElementById("btn4").addEventListener("click", function () {
+        const tbody = document.querySelector("#departmenttable tbody");
+        tbody.innerHTML = "";
+        const section = document.getElementById("departmentTableSection");
+        section.style.display = section.style.display === "none" ? "block" : "none";
+      });
+
+      document.getElementById("btn5").addEventListener("click", function () {
+        const tbody = document.querySelector("#doctortable tbody");
+        tbody.innerHTML = "";
+        const section = document.getElementById("doctorTableSection");
+        section.style.display = section.style.display === "none" ? "block" : "none";
+      });
+
+      document.getElementById("btn6").addEventListener("click", function () {
+        const tbody = document.querySelector("#medicinetable tbody");
+        tbody.innerHTML = "";
+        const section = document.getElementById("medicineTableSection");
+        section.style.display = section.style.display === "none" ? "block" : "none";
+      });
+
+      document.getElementById("btn7").addEventListener("click", function () {
+        const tbody = document.querySelector("#patienttable tbody");
+        tbody.innerHTML = "";
+        const section = document.getElementById("patientTableSection");
+        section.style.display = section.style.display === "none" ? "block" : "none";
+      });
+
+      document.getElementById("btn8").addEventListener("click", function () {
+        const tbody = document.querySelector("#mediciation_ordertable tbody");
+        tbody.innerHTML = "";
+        const section = document.getElementById("mediciation_orderTableSection");
+        section.style.display = section.style.display === "none" ? "block" : "none";
+      });
+
+      document.getElementById("btn9").addEventListener("click", function () {
+        const tbody = document.querySelector("#roomtable tbody");
+        tbody.innerHTML = "";
+        const section = document.getElementById("roomTableSection");
+        section.style.display = section.style.display === "none" ? "block" : "none";
+      });
+
+      document.getElementById("btn10").addEventListener("click", function () {
+        const tbody = document.querySelector("#treatmenttable tbody");
+        tbody.innerHTML = "";
+        const section = document.getElementById("treatmentTableSection");
+        section.style.display = section.style.display === "none" ? "block" : "none";
+      });
+
+
+
+
+
+    </script>
+
+
+    <script src="JS/Hospital.js"></script>
+
+
+
+  </body>
+
+</html>
